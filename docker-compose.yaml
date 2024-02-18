@@ -1,0 +1,74 @@
+version: '3'
+networks:
+  kong-net:
+    external: true
+services:
+
+  auth-service:
+    image: auth-jsapp:latest
+    container_name: auth-jsapp
+    ports:
+      - 8084:3000
+    networks:
+      - kong-net
+  
+  user-service:
+    image: user-jsapp:latest
+    container_name: user-jsapp
+    ports:
+      - 8081:3000
+    networks:
+      - kong-net
+  
+  course-service:
+    image:  course-jsapp:latest
+    container_name:  course-jsapp
+    ports:
+      - 8082:3000
+    networks:
+      - kong-net
+  
+  taken-service:
+    image: taken-jsapp:latest
+    container_name: taken-jsapp
+    ports:
+      - 8083:3000
+    networks:
+      - kong-net
+  
+  main-service:
+    image: main-jsapp:latest
+    container_name: main-jsapp
+    ports:
+      - 8085:80
+    networks:
+      - kong-net
+
+  db-appservice:
+    image: postgres
+    # restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: tahubulat
+      POSTGRES_DB: app-service
+    volumes:
+      - ./db-config:/var/lib/postgresql
+    networks:
+      - kong-net
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    restart: always
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    ports:
+      - 5580:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@localhost.com
+      PGADMIN_DEFAULT_PASSWORD: tahubulat
+    networks:
+      - kong-net
+
+volumes:
+  pgadmin-data:

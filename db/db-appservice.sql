@@ -51,3 +51,12 @@ INSERT INTO purchases (username, courseId, status) VALUES
   ('delta', 2, 'Purchased'),
   ('clara', 2, 'Purchased'),
   ('beta', 4, 'Purchased');
+
+-- Create reservasion table
+CREATE TABLE reservasion (
+  id SERIAL PRIMARY KEY,
+  nama VARCHAR(255) NOT NULL,
+  username VARCHAR(255) NOT NULL,
+  resdate DATE NOT NULL,
+  resexp DATE NOT NULL
+);

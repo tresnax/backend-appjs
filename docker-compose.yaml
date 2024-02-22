@@ -1,6 +1,6 @@
 version: '3'
 networks:
-  kong-net:
+  krakend-net:
     external: true
 services:
 
@@ -10,7 +10,7 @@ services:
     ports:
       - 8084:3000
     networks:
-      - kong-net
+      - krakend-net
   
   user-service:
     image: user-jsapp:latest
@@ -18,7 +18,7 @@ services:
     ports:
       - 8081:3000
     networks:
-      - kong-net
+      - krakend-net
   
   course-service:
     image:  course-jsapp:latest
@@ -26,7 +26,7 @@ services:
     ports:
       - 8082:3000
     networks:
-      - kong-net
+      - krakend-net
   
   taken-service:
     image: taken-jsapp:latest
@@ -34,41 +34,53 @@ services:
     ports:
       - 8083:3000
     networks:
-      - kong-net
+      - krakend-net
   
-  main-service:
-    image: main-jsapp:latest
-    container_name: main-jsapp
-    ports:
-      - 8085:80
-    networks:
-      - kong-net
+  # main-service:
+  #   image: main-jsapp:latest
+  #   container_name: main-jsapp
+  #   ports:
+  #     - 8085:80
+  #   networks:
+  #     - krakend-net
+  
+  # reserv-service:
+  #   image: reserv-jsapp:latest
+  #   container_name: reserv-jsapp
+  #   ports:
+  #     - 8086:80
+  #   networks:
+  #     - krakend-net
 
   db-appservice:
     image: postgres
-    # restart: always
+    container_name: db-appservice
+    restart: always
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: tahubulat
       POSTGRES_DB: app-service
     volumes:
-      - ./db-config:/var/lib/postgresql
+      - ./db-config:/var/lib/postgresql/data
+      - ./db:/docker-entrypoint-initdb.d
     networks:
-      - kong-net
+      - krakend-net
 
-  pgadmin:
-    image: dpage/pgadmin4:latest
-    container_name: pgadmin
-    restart: always
-    volumes:
-      - pgadmin-data:/var/lib/pgadmin
-    ports:
-      - 5580:80
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@localhost.com
-      PGADMIN_DEFAULT_PASSWORD: tahubulat
-    networks:
-      - kong-net
+  # pgadmin:
+  #   image: dpage/pgadmin4:latest
+  #   container_name: pgadmin
+  #   restart: always
+  #   volumes:
+  #     - pgadmin-data:/var/lib/pgadmin
+  #   ports:
+  #     - 5580:80
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: admin@localhost.com
+  #     PGADMIN_DEFAULT_PASSWORD: tahubulat
+  #   networks:
+  #     - krakend-net
 
-volumes:
-  pgadmin-data:
+# volumes:
+#   # pgadmin-data:
+#   db-config:
+#     external: true

@@ -8,6 +8,7 @@ build:
 	docker build course-list/ -t course-jsapp:latest 
 	docker build taken-course/ -t taken-jsapp:latest
 	docker build frontend/ -t main-jsapp:latest
+	docker build rsv/ -t reserv-jsapp:latest
 
 install:
 	docker-compose up -d

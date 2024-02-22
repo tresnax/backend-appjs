@@ -18,7 +18,7 @@ const pool = new Pool({
   port: process.env.DB_PORT,
 });
 
-// // Objek untuk menyimpan informasi pengguna
+// Objek untuk menyimpan informasi pengguna
 // const users = {
 //   'alpha': 'alpha',
 //   'beta': 'beta',
